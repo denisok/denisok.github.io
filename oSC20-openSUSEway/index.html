@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>oSC20 openSUSE way</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/opensuse.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-background="img/hexagons.png" data-background-size="100%"
+		                 data-background-position="50% 110%">
+					<h1>openSUSE way</h1>
+			                <h3>Sway on openSUSE</h3>
+					<h3>user status</h3>
+					<div class="title-name">Denys Kondratenko</div>
+					<div class="title-mail">dkondratenko@suse.com</div>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+## Page title
+
+A paragraph with some text and a [link](http://hakim.se).
+					</textarea>
+				</section>
+                                <section data-markdown>
+					<textarea data-template>
+## Page title 1
+
+A paragraph with some text and a [link](http://hakim.se).
+					</textarea>
+				</section>
+				<section>
+					<h1>Questions?</h1>
+					<p><img src="img/chameleon.svg" style="max-height:300px; border: 0; background: rgba(0, 0, 0, 0.0); box-shadow: 0 0 0px rgba(0, 0, 0, 0.0);"></p>
+				        <div class="title-name">https://github.com/denisok/openSUSEway</div>
+					<div class="colophon">
+					</div>
+				</section>
+			</div>
+		</div>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				navigationMode: 'default',
+				hash: true,
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/highlight/highlight.js' },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>
