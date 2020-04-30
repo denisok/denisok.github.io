@@ -194,6 +194,7 @@ body {
 
 .reveal code {
   font-family: monospace;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .reveal pre code {
