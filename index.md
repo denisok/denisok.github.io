@@ -1,4 +1,4 @@
-= openSUSEConf presentation links =
+# openSUSEConf presentation links
 * [oSC20 openSUSE way presentation](https://denisok.github.io/oSC/oSC20-openSUSEway.html)
 * [oSC21 openSUSEway virtual presentation recording](https://www.youtube.com/watch?v=9dOjUs2LA6I&list=PL_AMhvchzBafs77OghDUqlDwrIBl9R5QW)
 * [oSC22 openSUSE way presentation](https://denisok.github.io/oSC/openSUSEway.html)
