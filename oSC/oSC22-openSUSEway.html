@@ -28,150 +28,150 @@
 			<div class="slides">
 				<section data-background="img/hexagons.png" data-background-size="100%"
 		                 data-background-position="50% 110%">
-					<h1>openSUSEway status, running other platforms</h1>
-			                <h3>sway tilling window manager</h3>
-					<h3>user status</h3>
+					<h1>openSUSEway</h1>
+					<h3>sway DE: status update</h3>
 					<div class="title-name">Denys Kondratenko</div>
 					<div class="title-mail">stdden@opensuse.org</div>
 					<aside class="notes">
-						Shhh, these are your private notes 📝
+						<ul>
+							<li>Thank you for contributions! (icon, improvements, issues, packages)</li>
+							<li>Previous talks: oSC20, oSC21</li>
+							<li>excuses: new work, family</li>
+						</ul> 
 					</aside>
 				</section>
-				<section>
-					<h3>Sway is a tiling Wayland compositor</h3>
-					<video autoplay controls loop>
-						<source src="vid/openSUSEway.webm" type="video/webm">
-					</video>
-				</section>
-                                <section data-markdown>
+                <section data-markdown>
 					<textarea data-template>
 ## Why
-- lightweight Windows manager and Wayland Compositor
-- for the funs of tiling wms and keyboard efficient interaction
-- Wayland based technology that supposed to be modern, secure and simpler
+- sway: i3 compatible tiling Wayland [compositor](https://en.wikipedia.org/wiki/Compositing_window_manager)
+- openSUSEway tries to get as close to DE as possible
+  - packages, patterns
+  - configs
+  - themes
 
 Note:
-This will only display in the notes window.
+A compositing window manager, or compositor, is a window manager that provides applications with an off-screen buffer for each window. 
+The window manager composites the window buffers into an image representing the screen and writes the result into the display memory.
+
+https://wiki.archlinux.org/title/Wayland
+
+Display servers using the Wayland protocol are called compositors because they also act as compositing window managers
+					</textarea>
+				</section>
+                <section data-markdown>
+					<textarea data-template>
+## What do you need?
+- https://en.opensuse.org/Portal:OpenSUSEway
+- https://en.opensuse.org/Sway
+- https://github.com/opensuse/opensuseway
+
+Note:
+go to the links
+show that it is available during install
 					</textarea>
 				</section>
 				<section>
 					<section data-markdown>
 						<textarea data-template>
-## What do you need?
+## Imperfections or honestly Issues
+- installation that enables all services
+- SELinux
+- hardcoded paths
+- user configuration management
 
-All basic packages are already in Factory.
-
-Development project with additional packages: [X11:Wayland](https://build.opensuse.org/project/show/X11:Wayland)
+Note:
+Ppl that use Sway are already quite skilled, they tend to ignore and fix issues by themselves 
 						</textarea>
 					</section>
 					<section data-markdown>
 						<textarea data-template>
-## Sway
-```bash
-sudo zypper in sway
-```
+## Installation
+- greetd is used as login manager
+- current way requires xdm and update-alternatives
+- procrastinating to go that way, happily accept contribution
+- maybe Fedora way - systemd presets?
 
-- this would install swaywm with stock look
-- installs _/usr/share/wayland-sessions/sway.desktop_
-- shall appear in login manager if one is used (gdm and etc)
+Note:
+Way `display-manager.service` work on openSUSE. Currently to have your Login Manager(LM) or Display Manager (DM) enable you need to add `xdm` package as a dependency.
+That package provides `display-manager.service` with a fancy (in a systemd work and my taste) `sysconfig`? way to start the DM:
+https://build.opensuse.org/package/view_file/openSUSE:Factory/xdm/HOWTO.xdm?expand=1
+
+Installer as well relies on `xdm` to determine if `graphical.target` should be enforced:
+https://github.com/yast/yast-services-manager/blob/25f659aaa9b2fac2d2b8150f92f1512f319fc5cb/src/modules/services_manager_target.rb#L131
+
+Fedora:
+https://fedoraproject.org/wiki/Features/DisplayManagerRework
+https://src.fedoraproject.org/rpms/fedora-release/blob/rawhide/f/85-display-manager.preset
+
 						</textarea>
 					</section>
 					<section data-markdown>
 						<textarea data-template>
-## Waybar
-```bash
-sudo zypper in waybar
-```
-
-- have more features than basic _Swaybar_
-- _Swaybar_ comes with _sway_ and works out of the box as i3bar replacement 
+## SELinux
+- [greetd panic](https://github.com/openSUSE/openSUSEway/issues/55)
+- affects systems where SELinux is enforced
 						</textarea>
 					</section>
 					<section data-markdown>
 						<textarea data-template>
-## Other tools
+## hardcoded paths
+- [UsrEtc pam.d](https://todo.sr.ht/~kennylevinsen/greetd/19)
+- [UsrEtc config](https://todo.sr.ht/~kennylevinsen/greetd/20)
 
-- [mako](https://github.com/emersion/mako) a lightweight Wayland notification daemon (in Factory)
-- [Wofi](https://hg.sr.ht/~scoopta/wofi) is a rofi-like launcher/menu for wlroots-based wayland compositors (in devel project)
-- [wf-recorder](https://github.com/ammen99/wf-recorder) is a utility program for screen recording of wlroots-based compositors (in devel project)
+Note:
+- pam: this needs to be fixed upstream in Rust, maybe provide a build flag?
+- pam: maybe there some Rust lib that detects it, need Rust experts
 						</textarea>
 					</section>
 					<section data-markdown>
 						<textarea data-template>
-## Configurations
+## user configuration management
+- [Modularize config](https://github.com/openSUSE/openSUSEway/issues/49)
+- user config utility / package manager to:
+  - add configuration to the user's `.config`
+  - add flapak flathub repo
 
-- [Manage dotfiles with Git](https://news.opensuse.org/2020/03/27/Manage-dotfiles-with-Git/) is a good practice to manage local configuration
-- example config for this demo [openSUSE way](https://github.com/denisok/openSUSEway)
+
+Note:
+dotfiles are the way, maybe some automation around it ? 
+
+but not always a way.
+
+It is probably more general issue:
+- enable/start user services
+- custom tools (kubectl)
+toolbox not always works
+
 						</textarea>
 					</section>
 				</section>
-				<section>
-					<section data-markdown>
-						<textarea data-template>
-## openSUSE way
-- if nobody uses new and better technologies, they aren't taking over
-- idea is to have out of the box install with Sway and some tools that works for most
-- solving quick import of user configs could give user smooth experience
-- maybe even system role in the installator to provide this desktop option
-						</textarea>
-					</section>
-					<section data-markdown>
-						<textarea data-template>
-## Design
-- could follow openSUSE design brand rules
-- easy customizable css for the most of the applications
-- snippet from _.config/waybar/style.css_
-
-```
-* {
-    border:        none;
-    border-radius: 0;
-    font-family:   "Source Sans Pro";
-    font-size:     15px;
-    box-shadow:    none;
-    text-shadow:   none;
-    transition-duration: 0s;
-}
-
-window#waybar {
-    color: rgba(53, 185, 171, 1);
-    background-color: rgba(23, 63, 79, 0.4);
-    border-bottom: 2px solid rgba(53, 185, 171, 0.4);
-}
-```
-						</textarea>
-					</section>
-					<section data-markdown>
-						<textarea data-template>
-## Config
-- Sway and Waybar both support distro specific configs under _/etc/_
-- some of packages as _wofi_ doesn't, it looks only at _~/.config/_ (could be overridden by _--config_)
-- Sway supports _config.d/_ additional configs style for user configuration
-- a lot of users switching from distros/wm or reinstalling from scratch would want their config
-- any way to provide smooth config merge and better out of box experience ?
-						</textarea>
-					</section>
-					<section data-markdown>
-						<textarea data-template>
-## openSUSE way desktop
-- any interest in such desktop enviroment?
-- could be small, fast and modern installation for geeks
-- so far personal exercise for the dotfile and quick system installation
-<p><img src="img/openSUSEway.png"></p>
-						</textarea>
-					</section>
-
+                <section data-markdown>
+					<textarea data-template>
+## openSUSE way next steps
+- remove imperfections
+- MicroOS Desktop
+- Fedora
+					</textarea>
 				</section>
 				<section>
 					<h1>Questions?</h1>
 					<p><img src="img/chameleon.svg" style="max-height:300px; border: 0; background: rgba(0, 0, 0, 0.0); box-shadow: 0 0 0px rgba(0, 0, 0, 0.0);"></p>
-					<div class="title-name"><a href="https://github.com/denisok/openSUSEway">https://github.com/denisok/openSUSEway</a></div>
+					<div class="title-name">
+						<a href="https://github.com/denisok/openSUSEway">https://github.com/opensuse/opensuseway</a>
+						<br/>
+						<a href="https://denisok.github.io/">https://denisok.github.io/</a>
+					</div>
 					<div class="colophon">
 					</div>
-				</section>
-				<section>
-					<h3><a href="https://wayfire.org/">Wayfire</a></h3>
-					<iframe width="960" height="540" src="https://www.youtube.com/embed?listType=playlist&list=PLb7YRKEhWEBUIoT-a29UoJW9mhfzjpNle&index=1?autoplay=1?controls=0" frameborder="0"></iframe>
+					<aside class="notes">
+						Please contribute:
+						<ul>
+							<li>try it out</li>
+							<li>provide your ideas</li>
+							<li>fix some issues</li>
+							<li>update, create new packages</li>
+						</ul> 
+					</aside>
 				</section>
 			</div>
 		</div>
