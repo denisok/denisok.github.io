@@ -9,7 +9,7 @@
 
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/opensuse.css">
+		<link rel="stylesheet" href="css/theme/solarized.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/monokai.css">
@@ -26,32 +26,524 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section data-background="img/hexagons.png" data-background-size="100%"
-		                 data-background-position="50% 110%">
-					<h1>making a switch from docker to podman in development environment</h1>
-			                <h3>how to configure dev env to use podman</h3>
-					<h3>user status</h3>
+				<section>
+					<h1>from docker to podman in dev env</h1>
+			        <h3>configure dev env to use podman</h3>
 					<div class="title-name">Denys Kondratenko</div>
 					<div class="title-mail">denys.kondratenko@percona.com</div>
 					<aside class="notes">
-						Shhh, these are your private notes 📝
+						Checklist: full screen mode<br/>
+						Please ask questions any time<br/>
+						me<br/>
+  						- openSUSE TW sway -> openSUSEway<br/>
+  						- SUSE Storage engineering in a past<br/>
+  						- Percona PMM engineering now
 					</aside>
 				</section>
-				<section>
-					<h3>Sway is a tiling Wayland compositor</h3>
-					<video autoplay controls loop>
-						<source src="vid/openSUSEway.webm" type="video/webm">
-					</video>
-				</section>
-                                <section data-markdown>
+                <section data-markdown>
 					<textarea data-template>
-## Why
-- lightweight Windows manager and Wayland Compositor
-- for the funs of tiling wms and keyboard efficient interaction
-- Wayland based technology that supposed to be modern, secure and simpler
+## Intro
+- [Percona](https://www.percona.com/)
+  - Experts in Databases and DB Software
+  - Keeping Open Source Open
+  - [Percona Platform](https://www.percona.com/software/percona-platform)
+- Percona Monitoring and Management (PMM)
+  - monitor the health of the DBs infrastructure
+  - manage and improve performance of your DBs
 
 Note:
-This will only display in the notes window.
+Percona is a leader in providing best-of-breed enterprise-class support, consulting, managed services, training and software for MySQL®, MariaDB®, MongoDB®, PostgreSQL® and other open source databases in on-premises and cloud environments.
+
+Percona:
+- remote first
+- OSS
+- support, managed services
+- DB distributions
+- DBaaS - operators, PMM DBaaS
+- Platform and Portal as unifying framework for all sw and services
+
+					</textarea>
+				</section>
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+## PMM
+- [Grafana based interface](https://www.percona.com/software/database-tools/percona-monitoring-and-management)
+- [https://github.com/percona/pmm](https://github.com/percona/pmm)
+- docker as main distribution method
+- also supports different Clouds
+
+Note:
+Go to the marketing link
+- show nice picture how it looks
+- talk about those aspects of mon, qan, management
+
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## PMM development
+- Go lang, local builds, start in container
+- [docker-compose](https://github.com/percona/pmm-managed/blob/main/docker-compose.yml) to run the server
+- [docker-compose](https://github.com/percona/pmm/blob/main/agent/docker-compose.yml) to run test environment
+- [Makefiles](https://github.com/percona/pmm-managed/blob/main/Makefile#L12) with docker exec
+- [gorelease](https://github.com/percona/mongodb_exporter/blob/main/.goreleaser.yml) to build some other bin/containers
+- [docker-compose](https://github.com/percona/mongodb_exporter/blob/main/docker-compose.yml) for test those
+- [scripts](https://github.com/Percona-Lab/pmm-submodules/blob/PMM-2.0/build/bin/build-server-rpm#L102) and [docker build](https://github.com/Percona-Lab/pmm-submodules/blob/PMM-2.0/build/bin/build-server-docker#L32) to build release image
+
+Note:
+
+Got to the links and explain:
+- development of the app is not easy
+- dev testing that is hard
+- devcontainer for VSCode is also there
+- external dependencies as exporters has their own builds and testing
+- creating release build is even more complicated
+- CI/CD even not discussed here - quite a topic by itself
+
+						</textarea>
+					</section>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+## Why
+- development environment in containers
+- unlock from hardcoded tools
+- rootless, daemonless
+- opportunity to think about more general approach for OSS members
+
+Note:
+
+In development we use containers quite extensively to run client-server application as well as different DBs. To make that env as close as possible to the real one we need this kind of isolation.
+Historically PMM uses docker quite extensively, for build and test environment. docker-compose is also the must.
+
+I suppose during early PMM development docker was quite popular and till this day had better compatibility: mac, windows.
+
+Also the main distribution method is docker.
+
+Being a fun of podman approach I didn't want to install docker in a first place and asked myself if I could use podman instead.
+
+But more generally, it is more a question on how to make it work for any container cli or maybe interface.
+
+It is also needed for OSS to get more contributions from ppl that could use different tools.
+
+In this talk I will share my experience trying to understand if there any way of more general development approach to environment on example of using podman ina docker first dev env.
+
+					</textarea>
+				</section>
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+## Podman
+
+[Podman](https://podman.io/) is a daemonless container engine for developing, managing, and running OCI ([Open Container Initiative](https://opencontainers.org/)) Containers
+
+POD MANager
+
+Check out also [Kubernetes Podcast](https://kubernetespodcast.com/episode/164-podman/) to learn more about `podman` and listen to it's creators.
+
+
+Note:
+- when docker requires daemon running, podman is just a cli talking to oci runtime
+- rootless from the start
+- compatible with docker cli
+- it is not just container abstraction but also pod
+- there quite a lot of ppl in openSUSE that promote podman for a long time
+- enterprise support push by RH
+- rapid development
+- OCI standardization
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## setup is easy
+
+```sh
+$ sudo zypper install podman
+```
+If you need docker-compose no problemo:
+```sh
+$ sudo zypper install docker-compose
+$ systemctl --user start podman.socket
+```
+
+Note:
+docker-compose is just a tool that talks to the socket, so it is fine
+As we seen in the examples for PMM I would need it anyway.
+I don't particularly like compose spec, and it was confusing for me to jump from 2 to3 version, like container start sequence and other incompatible features.
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## kube generate/play
+- podman supports k8s manifests
+- could generate those and start them
+- gives you possibility to use it k8s
+- is it better interface than compose?
+
+Note:
+Along many features, I would like to highlight k8s compatibility.
+Last time I tried it wasn't full, I had issues with networking.
+But as better interface and potential - it is great.
+						</textarea>
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+## Let's roll
+
+```sh
+$ alias docker=podman
+```
+
+Note:
+Lets try to replace docker with podman.
+I still need docker-compose, and that is installed, as well as podman socket
+I would like to run it as the regular user
+
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## DOCKER_HOST
+```sh
+$ alias docker=podman
+$ make env-up
+...
+  File "/usr/lib/python3.10/site-packages/docker/transport/unixconn.py", line 30, in connect
+    sock.connect(self.unix_socket)
+FileNotFoundError: [Errno 2] No such file or directory
+...
+
+$ systemctl --user status podman.socket
+● podman.socket - Podman API Socket
+     Loaded: loaded (/usr/lib/systemd/user/podman.socket; disabled; vendor preset: disabled)
+     Active: active (listening) since Wed 2021-12-22 22:50:33 CET; 1h 12min ago
+   Triggers: ● podman.service
+       Docs: man:podman-system-service(1)
+     Listen: /run/user/1000/podman/podman.sock (Stream)
+     CGroup: /user.slice/user-1000.slice/user@1000.service/app.slice/podman.socket
+
+$ DOCKER_HOST=unix:///run/user/1000/podman/podman.sock make env-up
+```
+
+Note:
+docker-compose that is used to bring up environment couldn't connect to the docker daemon and thus failing. There is an env var to point to the right socket to talk to so lets find out the socket path and set it.
+
+Set that var in your environment (.bashrc or similar) or I set it in the current session
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## short-name resolution
+```sh
+$ make env-up
+Pulling pmm-managed-server ... error
+
+ERROR: for pmm-managed-server  failed to resolve image name: short-name resolution enforced but cannot prompt without a TTY
+ERROR: failed to resolve image name: short-name resolution enforced but cannot prompt without a TTY
+
+$ DOCKER_HOST=unix:///run/podman/podman.sock PMM_SERVER_IMAGE=docker.io/perconalab/pmm-server:dev-latest make env-up
+```
+
+Note:
+The way to go is to alias names for example in /etc/containers/registries.conf.d/001-shortnames-den.conf.
+Or use full qualified names.
+This is another non-standard assumption that everything is in one docker hub repo.
+
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## privileged ports
+```sh
+$ make env-up
+...
+
+ERROR: for pmm-managed-server  Cannot start service pmm-managed-server: rootlessport cannot expose privileged port 80, you can add 'net.ipv4.ip_unprivileged_port_start=80' to /etc/sysctl.conf (currently 1024), or choose a larger port number (>= 1024): listen tcp 127.0.0.1:80: bind: permission denied
+compose.parallel.parallel_execute_iter: Failed: <Service: pmm-managed-server>
+compose.parallel.feed_queue: Pending: set()
+
+ERROR: for pmm-managed-server  Cannot start service pmm-managed-server: rootlessport cannot expose privileged port 80, you can add 'net.ipv4.ip_unprivileged_port_start=80' to /etc/sysctl.conf (currently 1024), or choose a larger port number (>= 1024): listen tcp 127.0.0.1:80: bind: permission denied
+ERROR: compose.cli.main.exit_with_metrics: Encountered errors while bringing up the project.
+make: *** [Makefile:9: env-compose-up] Error 1
+```
+
+```yaml
+ports:
+  - ${PMM_PORT_HTTP:-80}:80
+  - ${PMM_PORT_HTTPS:-443}:443
+```
+
+Note:
+we need to change port to 8080 or some other in allowed range
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## security-opt parameter
+```sh
+$ make env-up
+...
+ERROR: for pmm-managed-server  Cannot create container for service pmm-managed-server: fill out specgen: invalid --security-opt 1: "seccomp:unconfined"
+https://github.com/containers/podman/blob/7dabcbd7bcf78f3b5d310ed547801106da382618/pkg/specgenutil/specgen.go#L544
+```
+here it is:
+```yaml
+    security_opt:
+      - seccomp:unconfined
+```
+Podman understands `seccomp=unconfined` docker should be happy as well, as it support both `:` and `=`:
+* https://github.com/docker/cli/blob/9de1b162f/cli/command/container/opts.go#L673
+
+
+Note:
+Looks like devs weren't sure which one is correct or there were no standard on the date `:` was added. But looks like `=` is a correct one. So we need to test it with docker and just change.
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## Makefile and alias
+```sh
+$ make env-up
+...
+Creating pmm-managed-server ... done
+compose.parallel.feed_queue: Pending: set()
+compose.parallel.parallel_execute_iter: Finished processing: <Service: pmm-managed-server>
+compose.parallel.feed_queue: Pending: set()
+docker exec -it --workdir=/root/go/src/github.com/percona/pmm-managed pmm-managed-server .devcontainer/setup.py
+make: docker: No such file or directory
+make: *** [Makefile:12: env-devcontainer] Error 127
+
+$ sudo ln -s /usr/bin/podman /usr/bin/docker
+``` 
+
+Note:
+all before was docker-compose up, and here we come to docker commands in Makefile.
+So we can't just alias it in bash, but need a link:
+`$ sudo ln -s /usr/bin/podman /usr/bin/docker`
+
+Other way to do it is to use some variable in the Makefile to be able to take executable as a parameter.
+
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## Success
+```sh
+$ make env-up
+...
+> supervisorctl start pmm-managed
+pmm-managed: started
+Done in 129.057330132
+```
+- it didn't take long to workaround everything
+- goreleaser for mongodb_exporter worked fine
+- test env with docker-compose also worked with minor tweaks
+
+Note:
+for goreleaser you also need to pass socket as a parameter
+
+docker-compose that we have also have `links` which weren't recognized by podman and actually obsolete.
+Another spec issue for compose.
+
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## SELinux
+- `:Z` option for volumes that you want to use locally and in container
+  - `- .:/root/go/src/github.com/percona/pmm-managed:Z`
+- `:z` option for test env so containers could share volumes with each other
+
+Note:
+In dev some volumes are used both locally and in container to spin new changes.
+
+In testing env some of the containers could use same volumes for startup scripts for example.
+
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## Done?
+- I wish
+- now release
+
+Note:
+
+						</textarea>
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+## Release builds
+- PMM has tightly coupled [infrastructure in container](https://camo.githubusercontent.com/4b5d53d6084d15d3ad0cfa710d8d13d6097819d69914fa5ca447dfa9dcd4b7f7/68747470733a2f2f646f63732e706572636f6e612e636f6d2f706572636f6e612d6d6f6e69746f72696e672d616e642d6d616e6167656d656e742f5f696d616765732f504d4d5f4172636869746563747572655f436c69656e745f5365727665722e6a7067)
+- when development builds are based on existing container
+- release is done from sources and has many components
+
+Note:
+
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## Minor tweaks
+- build is based on bash scripts
+- it uses docker to build binaries and rpms
+  - `--userns=keep-id` for correct permission during rpm build in containers
+- same issues as in dev builds (`:Z`, names and etc)
+
+Note:
+
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## Ansible
+- needed as we support not just containers but Cloud images as well
+- install needed packages
+- provision services inside of container
+- hardcoded values `when: ansible_virtualization_type == "docker"`
+  - `ansible-playbook -e ansible_virtualization_type=docker`
+
+Note:
+Ansible version is quite old, and not yet know about podman. In modern versions there is `container` abstraction.
+
+I had no other way but to change Dockerfile to run it with parameters and detect podman/docker in a script to choose what file to use.
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## ngnix
+- config that is used in container has privileged ports
+- ansible was starting ngnix during build
+- this is general PMM issue and will be fixed with rootless container
+
+Note:
+
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## Done
+- successfully built
+  - all binaries in a container
+  - rpm packages in a container
+  - final image with docker build
+
+Note:
+
+						</textarea>
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						<textarea data-template>
+## Summary
+- cli is compatible
+- legacy artifacts along the way
+  - deprecated compose specs
+  - short name resolutions
+- good parametrization would make it work with any compatible cli
+
+Note:
+
+cli compatibility is a very nice interface, compose spec should be the same but k8s manifest are probably the better way
+
+Shouldn't be cli dependant:
+- docker
+- podman
+- nerdctl
+- devcontainer cli
+
+Scripts are much more flexible but always custom
+
+Makefile are cumbersome to parametrize, hit me with a link of good practice
+
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## Tools to automate
+- [Dev container](https://github.com/devcontainers/spec/blob/main/docs/specs/devcontainer-reference.md)
+- [devcontainer cli](https://github.com/devcontainers/cli)
+- any others?
+
+Note:
+tried to setup VSCode in flatpak to support podman, I spent and hour and abandoned it.
+But for ppl that use VSCode it is good way to not exit IDE.
+
+From other side ppl use different editors and IDE:
+- vim
+- GoLand
+- others
+
+It also a question to have set of tools:
+- dev env has it's own
+- release build another
+- ci/cd another
+
+scripts are more flexible in this regard to reuse in different stages?
+Good parametrization is the answer.
+
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## what about k8s
+- kind, k3s, minikube, minishift
+- another set of env to run
+- `podman play kube` looks promising
+
+Note:
+I our project we also have DBaaS and thus we also need k8s environment.
+Zoo of tools
+
+play kube looks interesting if we look from automation around one set of standards "manifests"
+
+imagine you need VMs and could use kata containers, KubeVirt
+						</textarea>
+					</section>
+					<section data-markdown>
+						<textarea data-template>
+## next steps
+- parametrize all the steps for more general container cli
+- build in a container for dev
+- devcontainer to use same set of tools
+- explore k8s manifests as better deployment specs
+
+Note:
+dev env in container to start on any system any time:
+- better onboarding
+- enabling oss development
+
+as example I have very nice experience with csi-hostpath plugin, when `make container` just worked with podman.
+It did required Go to build though :(
+
+minikube cli I love - detects a lot of things, provide instructions
+
+The dream is to have all the steps fully containerized:
+- to avoid side effects of unclean env
+- minimum set of tools to use:
+  - podman, toolbox
+  - flatpak
+- enable everyone with consistent dev env
+
+						</textarea>
+					</section>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+## Thank you
+- for you attention
+- please ask me questions
+- we are welcoming new contributors
+- please advise me on methods and technics!
+
+Note:
+
 					</textarea>
 				</section>
 			</div>
