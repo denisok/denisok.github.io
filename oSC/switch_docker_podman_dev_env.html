@@ -93,7 +93,7 @@ Go to the marketing link
 
 Note:
 
-Got to the links and explain:
+Get to the links and explain:
 - development of the app is not easy
 - dev testing that is hard
 - devcontainer for VSCode is also there
@@ -123,11 +123,11 @@ Also the main distribution method is docker.
 
 Being a fun of podman approach I didn't want to install docker in a first place and asked myself if I could use podman instead.
 
-But more generally, it is more a question on how to make it work for any container cli or maybe interface.
+But more generally, it is more a question on how to have reliable dev environment to support different platforms.
 
-It is also needed for OSS to get more contributions from ppl that could use different tools.
+For example OSS: to get more contributions from ppl that could use different tools.
 
-In this talk I will share my experience trying to understand if there any way of more general development approach to environment on example of using podman ina docker first dev env.
+In this talk I will share my experience trying to understand if there any way of more general development approach to environment on example of using podman in a docker first dev env.
 
 					</textarea>
 				</section>
@@ -170,7 +170,7 @@ $ systemctl --user start podman.socket
 Note:
 docker-compose is just a tool that talks to the socket, so it is fine
 As we seen in the examples for PMM I would need it anyway.
-I don't particularly like compose spec, and it was confusing for me to jump from 2 to3 version, like container start sequence and other incompatible features.
+I don't particularly like compose spec, and it was confusing for me to jump from 2 to 3 version, like container start sequence and other incompatible features.
 						</textarea>
 					</section>
 					<section data-markdown>
@@ -178,7 +178,7 @@ I don't particularly like compose spec, and it was confusing for me to jump from
 ## kube generate/play
 - podman supports k8s manifests
 - could generate those and start them
-- gives you possibility to use it k8s
+- gives you possibility to use it in k8s
 - is it better interface than compose?
 
 Note:
@@ -208,7 +208,6 @@ I would like to run it as the regular user
 						<textarea data-template>
 ## DOCKER_HOST
 ```sh
-$ alias docker=podman
 $ make env-up
 ...
   File "/usr/lib/python3.10/site-packages/docker/transport/unixconn.py", line 30, in connect
@@ -294,7 +293,7 @@ here it is:
     security_opt:
       - seccomp:unconfined
 ```
-Podman understands `seccomp=unconfined` docker should be happy as well, as it support both `:` and `=`:
+Podman understands `seccomp=unconfined` docker should be happy as well, as it support both `:` and `=`
 * https://github.com/docker/cli/blob/9de1b162f/cli/command/container/opts.go#L673
 
 
@@ -354,7 +353,11 @@ Another spec issue for compose.
 						<textarea data-template>
 ## SELinux
 - `:Z` option for volumes that you want to use locally and in container
-  - `- .:/root/go/src/github.com/percona/pmm-managed:Z`
+
+```yaml
+- .:/root/go/src/github.com/percona/pmm-managed:Z
+```
+
 - `:z` option for test env so containers could share volumes with each other
 
 Note:
@@ -541,6 +544,7 @@ The dream is to have all the steps fully containerized:
 - please ask me questions
 - we are welcoming new contributors
 - please advise me on methods and technics!
+- [https://denisok.github.io/](https://denisok.github.io/)
 
 Note:
 
