@@ -26,7 +26,7 @@ Technologies: HPC, Lustre, Cloud, Ceph, Kubernetes, Storage, Embedded, Kernel
 Management: Agile methodologies (Kanban, Scrum, Scaled Agile), TSP/PSP, Holacracy, Empowered Teams.
 Languages: Russian native, Ukrainian native, English fluent, German B1.
 
-https://github.com/denisok
+[GitHub profile](https://github.com/denisok)
 
 ## CV
 
