@@ -1,5 +1,8 @@
 # Denys Kondratenko
 
+![Contributions](./contrib.png)
+
+## About me
 I am someone who proactively solves complex issues (technical, organizational, and leadership), build awesome technical teams, and has a passion for technology.
 
 In the course of my career path, I had the pleasure of hiring and work with very talented engineers and build teams of them to build products and solve issues in a number of technological domains and industries:
