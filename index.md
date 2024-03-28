@@ -61,10 +61,10 @@ Languages: Russian native, Ukrainian native, English fluent, German B1.
 ## openSUSEConf presentation links
 
 * [oSC19 Rook on Kubic](https://github.com/denisok/oSC19-Rook-on-Kubic/blob/master/slides.md) and [video](https://www.youtube.com/watch?v=f4B3WkEtSEQ)
-* [oSC20 openSUSE way presentation](https://denisok.github.io/oSC/oSC20-openSUSEway.html)
+* [oSC20 openSUSE way presentation](https://denisok.github.io/oSC/oSC20-openSUSEway.html) and [video](https://www.youtube.com/watch?v=dSMxJKSNSjo)
 * [oSC21 openSUSEway virtual presentation recording](https://www.youtube.com/watch?v=9dOjUs2LA6I)
-* [oSC22 openSUSE way presentation](https://denisok.github.io/oSC/oSC22-openSUSEway.html)
-* [making a switch from docker to podman in development environment](https://denisok.github.io/oSC/switch_docker_podman_dev_env.html)
+* [oSC22 openSUSE way presentation](https://denisok.github.io/oSC/oSC22-openSUSEway.html) and [video](https://www.youtube.com/watch?v=xZdzj7jfpec)
+* [making a switch from docker to podman in development environment](https://denisok.github.io/oSC/switch_docker_podman_dev_env.html) and [video](https://www.youtube.com/watch?v=A_fbjz0RWeI)
 
 ## Blog posts
 
