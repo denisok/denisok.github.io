@@ -3,6 +3,7 @@
 ![Contributions](./contrib.png)
 
 ## About me
+
 I am someone who proactively solves complex issues (technical, organizational, and leadership), build awesome technical teams, and has a passion for technology.
 
 In the course of my career path, I had the pleasure of hiring and work with very talented engineers and build teams of them to build products and solve issues in a number of technological domains and industries:
@@ -29,19 +30,44 @@ Technologies: HPC, Lustre, Cloud, Ceph, Kubernetes, Storage, Embedded, Kernel
 Management: Agile methodologies (Kanban, Scrum, Scaled Agile), TSP/PSP, Holacracy, Empowered Teams.
 Languages: Russian native, Ukrainian native, English fluent, German B1.
 
-[GitHub profile](https://github.com/denisok)
+## Links
 
-## CV
+  - [LinkedIn](https://www.linkedin.com/in/kondratenko/)
+  - [My CV in pdf](./Resume-Denys-Kondratenko.pdf)
+  - [GitHub profile](https://github.com/denisok)
 
-[My CV in pdf](./Resume-Denys-Kondratenko.pdf)
+## LUG 2013 and IT conf in UA
+
+  - [Legacy code](https://www.slideshare.net/DenisKondratenko/legacy-code-development-and-maintenance)
+    - panel discussion during LUG
+    - IT conference in Kiev presentation 
+
+## FOSDEM 2018
+
+  - [Ceph & ELK](https://archive.fosdem.org/2018/schedule/event/ceph_and_elk/) talk and [video](https://www.youtube.com/watch?v=iZotyhzY7Kc)
+
+## Open Source Monitoring Conference (OSMC) 2021
+
+  - [pg_stat_monitor](https://www.youtube.com/watch?v=hOURu_1zL_c): A cool extension for better database (PostgreSQL) monitoring
+
+##  Percona - Percona Community Live 2022
+
+  - [PMM on Kubernetes](https://www.youtube.com/watch?v=bqvE_5tcL5M)
+
+## BigData 2023 conference
+
+  - [Fast, Faster, Fastest: Object Storage, Cloud Block Storage, and SSD in Analytic Databases](https://events.pinetool.ai/3079/#sessions/101665?referrer%5Bpathname%5D=%2Fsessions&referrer%5Bsearch%5D=&referrer%5Btitle%5D=Sessions)
 
 ## openSUSEConf presentation links
+
+* [oSC19 Rook on Kubic](https://github.com/denisok/oSC19-Rook-on-Kubic/blob/master/slides.md) and [video](https://www.youtube.com/watch?v=f4B3WkEtSEQ)
 * [oSC20 openSUSE way presentation](https://denisok.github.io/oSC/oSC20-openSUSEway.html)
-* [oSC21 openSUSEway virtual presentation recording](https://www.youtube.com/watch?v=9dOjUs2LA6I&list=PL_AMhvchzBafs77OghDUqlDwrIBl9R5QW)
+* [oSC21 openSUSEway virtual presentation recording](https://www.youtube.com/watch?v=9dOjUs2LA6I)
 * [oSC22 openSUSE way presentation](https://denisok.github.io/oSC/oSC22-openSUSEway.html)
 * [making a switch from docker to podman in development environment](https://denisok.github.io/oSC/switch_docker_podman_dev_env.html)
 
 ## Blog posts
+
 * [PMM development and testing with help of minikube](https://percona.community/blog/2021/12/20/pmm-minikube-postgres/)
 * [How to replace `docker` with `podman` for PMM development](https://percona.community/blog/2021/12/27/replace-docker-with-podman-for-pmm-dev/)
 * [How and Why Contribute to Communities](https://percona.community/blog/2022/05/30/csi-minikube-multinode/)
